@@ -37,20 +37,31 @@ namespace Nc
     namespace System
     {
         /// Manage the inputs, like WindowInput
-        class LCORE InputManager : public Utils::NonCopyable
+        /**
+            \sa
+                - Input
+        */
+        class LCORE InputListener : public Utils::NonCopyable
         {
             private:
                 typedef std::list<Input*>           ListInput;
 
             public:
-                InputManager() {};
-                virtual ~InputManager() {};
+                InputListener() {};
+                virtual ~InputListener();
 
                 /** Add the given input and set the eventQueue pointer of the input */
-                inline void    AddInput(Input *input)           {input->SetEventQueue(&_eventQueue, &_mutexQueue); _inputList.push_back(input);}
+                inline void             AddInput(Input *input)              {input->AddListener(this); _inputList.push_back(input);}
+                /** Remove the given input from the list of inputs */
+                inline void             RemoveInput(Input *input)           {input->RemoveListener(this); _inputList.remove(input);}
 
                 /** Fill the given event by the event wich was in the eventQueue */
-                bool    PollEvent(Event &e);
+                bool                    PollEvent(Event &e);
+
+                /** \return the mutex witch protect the event queue */
+                inline System::Mutex    &GetMutex()                         {return _mutexQueue;}
+                /** \return the event queue of the listener */
+                inline EventQueue       &GetEventQueue()                    {return _eventQueue;}
 
             private:
                 ListInput       _inputList;         ///< the list of inputs

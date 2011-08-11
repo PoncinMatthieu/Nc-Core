@@ -27,7 +27,7 @@
 
 #include <sstream>
 #include <fstream>
-#include "XmlObject.h"
+#include "Object.h"
 #include "../Exception.h"
 #include "../Convert.h"
 

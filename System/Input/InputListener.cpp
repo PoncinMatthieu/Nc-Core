@@ -24,12 +24,20 @@
 
 -----------------------------------------------------------------------------*/
 
-#include "InputManager.h"
+#include "InputListener.h"
 
 using namespace std;
 using namespace Nc::System;
 
-bool InputManager::PollEvent(Event &e)
+InputListener::~InputListener()
+{
+    for (ListInput::iterator it = _inputList.begin(); it != _inputList.end(); ++it)
+    {
+        (*it)->RemoveListener(this);
+    }
+}
+
+bool InputListener::PollEvent(Event &e)
 {
 // si il y a un evenement, on le depile et return true
     _mutexQueue.Lock();
