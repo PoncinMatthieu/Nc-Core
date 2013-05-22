@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <syslog.h>
 #include <string.h>
+#include <pwd.h>
 #include "Exception.h"
 #include "Daemonizer.h"
 
@@ -47,6 +48,20 @@ Daemonizer::Daemonizer()
 
 Daemonizer::~Daemonizer()
 {
+}
+
+bool    Daemonizer::IsRoot()
+{
+    return (getuid() == 0);
+}
+
+void    Daemonizer::Setuid(const std::string &username)
+{
+    struct passwd *pwd = getpwnam(username.c_str());
+    if (pwd == NULL)
+        throw Exception("Daemonizer", "Failed to fetch the uid for the given username: " + username);
+    if (setuid(pwd->pw_uid) != 0)
+        throw Exception("Daemonizer", "Failed to set the user id. - " + std::string(strerror(errno)));
 }
 
 void    Daemonizer::Fork(const FileName &pidFile, const FileName &workingDirectory)
