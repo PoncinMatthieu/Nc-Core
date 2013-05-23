@@ -93,7 +93,7 @@ void    Daemonizer::Fork(const FileName &pidFile, const FileName &workingDirecto
             throw Exception("Daemonizer", "Failed to change working directory. - " + std::string(strerror(errno)));
     }
 
-    // Close out the standard file descriptors
+    // Close the standard file descriptors
     close(STDIN_FILENO);
     close(STDOUT_FILENO);
     close(STDERR_FILENO);

@@ -44,6 +44,8 @@ Logger::Logger()
 {
     _filename = FileName("out.log");
     _loggingfunction = NULL;
+    _writeTime = false;
+    _newLine = true;
 }
 
 Logger::~Logger()
@@ -107,6 +109,25 @@ void Logger::CheckFile()
 
 void Logger::Write(const std::string &Msg, bool flush)
 {
+
+    if (_newLine && !Msg.empty())
+    {
+        _newLine = false;
+        if (_writeTime)
+        {
+            time_t rawtime;
+            struct tm *timeinfo;
+            char buffer[100];
+            time(&rawtime);
+            timeinfo = localtime(&rawtime);
+            if (timeinfo != NULL)
+            {
+                strftime(buffer, 100, "[%H:%M:%S - %d/%m/%Y] ", timeinfo);
+                Write(buffer, false);
+            }
+        }
+    }
+
     System::Locker l(&_mutex);
 
   // log
@@ -160,4 +181,7 @@ void Logger::Write(const std::string &Msg, bool flush)
             _file.flush();
         }
     }
+
+    if (flush)
+        _newLine = true;
 }
