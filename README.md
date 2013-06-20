@@ -14,9 +14,9 @@ Nc-Core provide many basic management system and abstractions like:
 * Math library
 
 
-Nc-Core library can be used as a stand alone using it's dedicated repository 
+[Nc-Core] library can be used as a stand alone using it's dedicated repository 
 or it can be used along the full library 3dNovac.
-The dedicated repository is merged periodically with 3dNovac using a subtree merge.
+The dedicated repository is merged periodically with [3dNovac] using a subtree merge.
 
 
   [Nc-Core]: https://github.com/PoncinMatthieu/Nc-Core
