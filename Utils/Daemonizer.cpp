@@ -94,7 +94,7 @@ void    Daemonizer::Fork(const FileName &pidFile, const FileName &workingDirecto
     }
 
     // Close the standard file descriptors
-    close(STDIN_FILENO);
+    //close(STDIN_FILENO); ///< closing stdin cause a "socket exception" with the mongodb driver when compiled in debug mode.
     close(STDOUT_FILENO);
     close(STDERR_FILENO);
 
