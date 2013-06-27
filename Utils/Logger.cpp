@@ -130,8 +130,8 @@ void Logger::Write(const std::string &Msg, bool flush)
 
     System::Locker l(&_mutex);
 
-  // log
-    if (_status == 0)
+  // log or debug log
+    if (_status == 0 || _status == 2)
     {
         #if defined(_DEBUG) && defined(SYSTEM_WINDOWS)
             OutputDebugStringA(Msg.c_str());
@@ -161,23 +161,6 @@ void Logger::Write(const std::string &Msg, bool flush)
         if (flush)
         {
             cerr << std::flush;
-            _file.flush();
-        }
-    }
-  // debug
-    else if (_status == 2)
-    {
-        #if defined(_DEBUG) && defined(SYSTEM_WINDOWS)
-            OutputDebugStringA(Msg.c_str());
-        #endif
-        if (_loggingfunction != NULL)
-            _loggingfunction(Msg, flush);
-        CheckFile();
-        cout << Msg;
-        _file << Msg;
-        if (flush)
-        {
-            cout << std::flush;
             _file.flush();
         }
     }
