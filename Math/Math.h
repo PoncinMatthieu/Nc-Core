@@ -41,6 +41,7 @@
 #include "Box2D.h"
 #include "Pixel.h"
 #include "Test.h"
+#include "Quaternion.h"
 
 /// Global Namespace of 3dNovac.
 namespace Nc
